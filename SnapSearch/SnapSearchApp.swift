@@ -5,7 +5,6 @@
 //  Created by Daiki Fujimori on 2025/10/04
 //  
 
-
 import SwiftUI
 
 @main
