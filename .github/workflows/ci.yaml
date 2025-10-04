@@ -47,4 +47,6 @@ jobs:
             -scheme SnapSearch \
             -destination 'platform=iOS Simulator,OS=18.5,name=iPhone 16 Pro' \
             -enableCodeCoverage YES \
+            -skipPackagePluginValidation \
+            -skipMacroValidation \
           | xcpretty
