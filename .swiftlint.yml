@@ -1,4 +1,7 @@
 disabled_rules:
 
+# 空行時はtrailing_whitespaceの警告が出ないよう調整している
+# （Enter押下し改行したときにデフォルトで空白が入るため）
 trailing_whitespace:
   ignores_empty_lines: true
+  
