@@ -1,8 +1,6 @@
 name: iOS CI
 
 on:
-  push:
-    branches: ["*"]
   pull_request:
     branches: ["*"]
 
@@ -42,6 +40,7 @@ jobs:
       # 6. ビルド ＆ テスト
       - name: Build and test
         run: |
+          set -o pipefail
           DERIVED=$HOME/Library/Developer/Xcode/DerivedData/SnapSearch-DD
 
           xcodebuild build-for-testing \
@@ -53,7 +52,8 @@ jobs:
             -enableCodeCoverage NO \
             -skipPackagePluginValidation \
             -skipMacroValidation \
-            -only-testing:SnapSearchTests
+            -only-testing:SnapSearchTests \
+          | xcpretty
 
           xcodebuild test-without-building \
             -project SnapSearch.xcodeproj \
@@ -62,5 +62,4 @@ jobs:
             -derivedDataPath "$DERIVED" \
             -only-testing:SnapSearchTests \
             -enableCodeCoverage NO \
-            -resultBundlePath TestResults \
-            | tee xcodebuild.log
+          | xcpretty
