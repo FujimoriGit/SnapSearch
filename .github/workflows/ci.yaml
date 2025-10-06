@@ -52,8 +52,7 @@ jobs:
             -enableCodeCoverage NO \
             -skipPackagePluginValidation \
             -skipMacroValidation \
-            -only-testing:SnapSearchTests \
-          | xcpretty
+            -only-testing:SnapSearchTests
 
           xcodebuild test-without-building \
             -project SnapSearch.xcodeproj \
@@ -61,5 +60,4 @@ jobs:
             -destination 'platform=iOS Simulator,OS=18.5,name=iPhone 16 Pro' \
             -derivedDataPath "$DERIVED" \
             -only-testing:SnapSearchTests \
-            -enableCodeCoverage NO \
-          | xcpretty
+            -enableCodeCoverage NO
