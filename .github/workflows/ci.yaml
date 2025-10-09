@@ -48,8 +48,6 @@ jobs:
       # 5. APIキーをConfig.xcconfigに注入
       - name: Inject PEXELS_API_KEY
         run: |
-          mkdir -p SnapSearch
-
           cat > SnapSearch/Config.xcconfig <<'EOF'
           PEXELS_API_KEY = ${{ secrets.PEXELS_API_KEY }}
           EOF
