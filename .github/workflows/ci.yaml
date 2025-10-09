@@ -48,11 +48,20 @@ jobs:
       # 5. APIキーをConfig.xcconfigに注入
       - name: Inject PEXELS_API_KEY
         run: |
-          mkdir -p SnapSearch/SnapSearch
+          mkdir -p SnapSearch
+
+          cat > SnapSearch/Config.xcconfig <<'EOF'
+          PEXELS_API_KEY = ${{ secrets.PEXELS_API_KEY }}
+          EOF
+
           cat > SnapSearch/SnapSearch/Config.xcconfig <<'EOF'
           PEXELS_API_KEY = ${{ secrets.PEXELS_API_KEY }}
           INFOPLIST_KEY_PexelsAPIKey = $(PEXELS_API_KEY)
           EOF
+
+          echo "== wrote configs =="
+          ls -l SnapSearch/Config.xcconfig || true
+          ls -l SnapSearch/SnapSearch/Config.xcconfig || true
 
       # 6. 設定が展開されているかを確認
       - name: Show key-related build settings
