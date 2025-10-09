@@ -8,6 +8,7 @@ env:
   PROJECT: SnapSearch.xcodeproj
   SCHEME: SnapSearch
   CONFIGURATION: Debug
+  INFO_PLIST_PATH: "SnapSearch/Info.plist"
   DESTINATION: 'platform=iOS Simulator,OS=18.5,name=iPhone 16 Pro'
   DERIVED_NAME: SnapSearch-DD
   TEST_TARGET: SnapSearchTests
@@ -47,16 +48,8 @@ jobs:
 
       # 5. APIキーをConfig.xcconfigに注入
       - name: Inject PEXELS_API_KEY
-        shell: bash
         run: |
-        set -euo pipefail
-        TARGET_PATH="SnapSearch/Config.xcconfig"
-        install -d "$(dirname "$TARGET_PATH")"
-        cat > "$TARGET_PATH" <<'EOF'
-        PEXELS_API_KEY = ${{ secrets.PEXELS_API_KEY }}
-        EOF
-        echo "Wrote $TARGET_PATH"
-        ls -l "$TARGET_PATH"
+          echo ${{ secrets.PEXELS_API_KEY }} | base64 -o ${{ env.INFO_PLIST_PATH }} -D
 
 
       # 6. 設定が展開されているかを確認
