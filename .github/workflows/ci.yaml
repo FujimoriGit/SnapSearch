@@ -4,6 +4,14 @@ on:
   pull_request:
     branches: ["*"]
 
+env:
+  PROJECT: SnapSearch.xcodeproj
+  SCHEME: SnapSearch
+  CONFIGURATION: Debug
+  DESTINATION: 'platform=iOS Simulator,OS=18.5,name=iPhone 16 Pro'
+  DERIVED_NAME: SnapSearch-DD
+  TEST_TARGET: SnapSearchTests
+
 jobs:
   build-and-test:
     # デフォルトブランチへのpushまたはPRのときに実行
@@ -34,30 +42,45 @@ jobs:
       - name: Resolve Swift Packages
         run: |
           xcodebuild \
-            -project SnapSearch.xcodeproj \
+            -project "$PROJECT" \
             -resolvePackageDependencies
+
+      # 5. APIキーをConfig.xcconfigに注入
+      - name: Inject PEXELS_API_KEY
+        run: |
+          mkdir -p SnapSearch/SnapSearch
+          cat > SnapSearch/SnapSearch/Config.xcconfig <<'EOF'
+          PEXELS_API_KEY = ${{ secrets.PEXELS_API_KEY }}
+          INFOPLIST_KEY_PexelsAPIKey = $(PEXELS_API_KEY)
+          EOF
+
+      # 6. 設定が展開されているかを確認
+      - name: Show key-related build settings
+        run: |
+          xcodebuild -scheme "$SCHEME" -configuration "$CONFIGURATION" -showBuildSettings \
+            | egrep "PEXELS_API_KEY|INFOPLIST_FILE|GENERATE_INFOPLIST_FILE" || true
 
       # 6. ビルド ＆ テスト
       - name: Build and test
         run: |
           set -o pipefail
-          DERIVED=$HOME/Library/Developer/Xcode/DerivedData/SnapSearch-DD
+          DERIVED="$HOME/Library/Developer/Xcode/DerivedData/${DERIVED_NAME}"
 
           xcodebuild build-for-testing \
-            -project SnapSearch.xcodeproj \
-            -scheme SnapSearch \
-            -configuration Debug \
-            -destination 'platform=iOS Simulator,OS=18.5,name=iPhone 16 Pro' \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration "$CONFIGURATION" \
+            -destination "$DESTINATION" \
             -derivedDataPath "$DERIVED" \
             -enableCodeCoverage NO \
             -skipPackagePluginValidation \
             -skipMacroValidation \
-            -only-testing:SnapSearchTests
+            -only-testing:"$TEST_TARGET"
 
           xcodebuild test-without-building \
-            -project SnapSearch.xcodeproj \
-            -scheme SnapSearch \
-            -destination 'platform=iOS Simulator,OS=18.5,name=iPhone 16 Pro' \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "$DESTINATION" \
             -derivedDataPath "$DERIVED" \
-            -only-testing:SnapSearchTests \
+            -only-testing:"$TEST_TARGET" \
             -enableCodeCoverage NO
