@@ -1,14 +1,16 @@
 name: iOS CI
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
-    branches: ["*"]
+    branches: [ main ]
 
 env:
   PROJECT: SnapSearch.xcodeproj
   SCHEME: SnapSearch
   CONFIGURATION: Debug
-  INFO_PLIST_PATH: "SnapSearch/Info.plist"
+  INFO_PLIST_PATH: "./SnapSearch/SnapSearch/Info.plist"
   DESTINATION: 'platform=iOS Simulator,OS=18.5,name=iPhone 16 Pro'
   DERIVED_NAME: SnapSearch-DD
   TEST_TARGET: SnapSearchTests
