@@ -1,0 +1,16 @@
+# Environment
+Config.xcconfig
+
+# macOS system files
+.DS_Store
+
+# Xcode workspace
+xcuserdata/
+DerivedData/
+build/
+UserInterfaceState.xcuserstate
+
+# SPM
+SourcePackages
+.swiftpm
+.build
