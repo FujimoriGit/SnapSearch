@@ -55,10 +55,9 @@ jobs:
         run: |
           set -eo pipefail
           TARGET_PATH="SnapSearch/SnapSearch/Config.xcconfig"
-          mkdir -p "$(dirname "$TARGET_PATH")"
           {
             printf 'PEXELS_API_KEY = %s\n' "${PEXELS_API_KEY:-DUMMY_FOR_CI}"
-            # 自動生成 Info.plist (GENERATE_INFOPLIST_FILE=YES) でも効かせる
+        # 自動生成 Info.plist (GENERATE_INFOPLIST_FILE=YES) でも効かせる
             printf 'INFOPLIST_KEY_PexelsAPIKey = $(PEXELS_API_KEY)\n'
           } > "$TARGET_PATH"
           echo "Wrote $TARGET_PATH"
