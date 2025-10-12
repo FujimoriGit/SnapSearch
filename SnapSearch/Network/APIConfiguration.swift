@@ -17,7 +17,7 @@ struct APIConfiguration {
 
 // MARK: - APIError
 
-enum APIError: LocalizedError, Sendable {
+enum APIError: LocalizedError, Equatable {
     case invalidURL
     case noData
     case decodingError(String)
