@@ -5,5 +5,6 @@
 //  Created by Daiki Fujimori on 2025/10/04
 //  
 
+#include "../Config.xcconfig"
 // ログレベルを指定
 SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) LOG_DEBUG LOG_INFO LOG_WARN LOG_ERROR
