@@ -1,5 +1,5 @@
 //
-//  APIEndpointURLTests.swift
+//  APIEndpointTests.swift
 //  SnapSearch
 //  
 //  Created by Daiki Fujimori on 2025/10/12
