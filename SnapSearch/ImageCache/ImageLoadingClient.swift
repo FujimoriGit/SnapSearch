@@ -42,7 +42,6 @@ extension ImageLoadingClient: ImageLoading {
     func loadImage(from urlString: String) async throws -> Data {
         
         if let cachedData = await cacheService.getCachedImage(for: urlString) {
-            logger.debug(.network, "Image found in cache. urlString: \(urlString)")
             return cachedData
         }
         
@@ -81,8 +80,6 @@ private extension ImageLoadingClient {
                 logger.error(.network, "Invalid response type")
                 throw APIError.unknown
             }
-            
-            logger.debug(.network, "HTTP Status Code: \(httpResponse.statusCode)")
             
             guard httpResponse.statusCode == 200 else {
                 logger.error(.network, "HTTP Error: \(httpResponse.statusCode)")
