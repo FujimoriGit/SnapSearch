@@ -31,14 +31,9 @@ final class Navigator {
 /// ViewModelからUI遷移を発火する構造体
 @MainActor
 @Observable
-final class Router<R: Hashable & Sendable>: Sendable {
+final class Router<R: Hashable & Sendable> {
     
-    var path: [R] = [] {
-        
-        didSet{
-            logger.debug(.view, "\(oldValue) -> \(self.path)")
-        }
-    }
+    var path: [R] = []
     nonisolated init() {}
 }
 
