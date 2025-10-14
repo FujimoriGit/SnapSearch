@@ -7,27 +7,6 @@
 
 import Foundation
 
-// MARK: - Navigator
-
-/// UIスタックの実体
-@MainActor
-@Observable
-final class Navigator {
-    /// 表示中ルートの履歴
-    var path: [AnyHashable] = []
-    
-    nonisolated init() {}
-
-    func push(_ route: AnyHashable) { path.append(route) }
-    func pop() {
-        guard !path.isEmpty else { return }
-        path.removeLast()
-    }
-    func popToRoot() { path.removeAll(keepingCapacity: false) }
-}
-
-// MARK: - Router
-
 /// ViewModelからUI遷移を発火する構造体
 @MainActor
 @Observable
