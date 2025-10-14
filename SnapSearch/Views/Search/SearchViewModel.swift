@@ -36,6 +36,9 @@ final class SearchViewModel {
     @ObservationIgnored
     @Dependency(\.imageLoadingProvider) private var imageLoader
     
+    @ObservationIgnored
+    @Navigation(\.search) private var router
+    
     private var currentPage = 1
     private var currentQuery = ""
     private var searchTask: Task<Void, Never>?
@@ -74,6 +77,11 @@ extension SearchViewModel {
         Task {
             await performSearch(resetResults: false)
         }
+    }
+    
+    func tappedThumbnail(photo: Photo) {
+        
+        router.push(.photoDetail(photo))
     }
     
     func enteredSearchText(_ text: String) {

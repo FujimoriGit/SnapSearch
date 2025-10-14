@@ -16,6 +16,13 @@ struct SearchView: View {
     var body: some View {
         NavigationRoot(\.search) {
             searchContent(viewModel.state)
+                .navigationDestination(for: SearchRoute.self) {
+                    
+                    switch $0 {
+                    case .photoDetail(let photo):
+                        PhotoDetailView(photo: photo)
+                    }
+                }
         }
     }
 }
@@ -89,7 +96,7 @@ private extension SearchView {
         .background(Color(.systemBackground))
     }
     
-    private func photoGrid(_ state: SearchViewState) -> some View {
+    func photoGrid(_ state: SearchViewState) -> some View {
         ScrollView {
             LazyVGrid(
                 columns: [
@@ -98,10 +105,14 @@ private extension SearchView {
                 spacing: 2
             ) {
                 ForEach(state.photos) { photo in
-                    PhotoThumbnailView(photo: photo)
-                        .onAppear {
-                            viewModel.onAppearThumbnail(photo: photo)
-                        }
+                    Button {
+                        viewModel.tappedThumbnail(photo: photo)
+                    } label: {
+                        PhotoThumbnailView(photo: photo)
+                            .onAppear {
+                                viewModel.onAppearThumbnail(photo: photo)
+                            }
+                    }
                 }
                 
                 // ローディングインジケータ
