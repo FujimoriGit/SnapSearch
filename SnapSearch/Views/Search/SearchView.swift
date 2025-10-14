@@ -16,8 +16,6 @@ struct SearchView: View {
     var body: some View {
         NavigationRoot(\.search) {
             searchContent(viewModel.state)
-                .navigationTitle("写真検索")
-                .navigationBarTitleDisplayMode(.large)
         }
     }
 }
