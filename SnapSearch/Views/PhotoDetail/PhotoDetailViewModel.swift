@@ -15,7 +15,7 @@ struct PhotoDetailViewState: Equatable, Sendable {
     var imageData: Data?
     var isLoadingImage = false
     var imageLoadError: String?
-    var isNavigationHidden = false
+    var isNavigationHidden = true
     var scale: CGFloat = 1.0
     var offset: CGSize = .zero
 }

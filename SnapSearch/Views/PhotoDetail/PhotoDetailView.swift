@@ -27,19 +27,12 @@ struct PhotoDetailView: View {
                 photoContent(viewModel.state, parentSize: geometry.size)
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                VStack(spacing: 0) {
-                    Text(viewModel.state.photo.photographer)
-                        .font(.headline)
-                    
-                    if let alt = viewModel.state.photo.alt {
-                        Text(alt)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                }
+                Text(viewModel.state.photo.photographer)
+                    .font(.headline)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
             }
             
             ToolbarItem(placement: .topBarTrailing) {
@@ -47,6 +40,7 @@ struct PhotoDetailView: View {
             }
         }
         .toolbar(toolbarVisibility, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .task {
             await viewModel.onAppear()
         }
